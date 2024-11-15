@@ -11,7 +11,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, "index"])->middleware(['auth', 'App\Http\Middleware\LevelCheck:admin,librarian'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, "index"])->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth', 'App\Http\Middleware\LevelCheck:admin,librarian'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
