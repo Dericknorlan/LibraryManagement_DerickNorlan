@@ -25,7 +25,7 @@
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
                         <!-- CD Title -->
-                        <h3 class="text-center mb-4">{{ $cd->title }}</h3>
+                        <h3 class=" mb-4">{{ $cd->title }}</h3>
                         <hr />
 
                         <!-- CD Artist -->
@@ -36,7 +36,19 @@
 
                         <!-- CD Stock -->
                         <p><strong>Stock Available:</strong> {{ $cd->stock }}</p>
-
+                        <!-- Additional Buttons -->
+                        <div class="mt-4">
+                            <a href="{{ route('cds.edit', $cd->id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button onclick="confirmDelete({{ $cd->id }})" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <form id="delete-form-{{ $cd->id }}" action="{{ route('cds.destroy', $cd->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -36,7 +36,19 @@
 
                         <!-- Journal Abstract -->
                         <p><strong>Abstract:</strong> {{ $journal->abstract }}</p>
-
+                        <!-- Additional Buttons -->
+                        <div class="mt-4">
+                            <a href="{{ route('journals.edit', $journal->id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button onclick="confirmDelete({{ $journal->id }})" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <form id="delete-form-{{ $journal->id }}" action="{{ route('journals.destroy', $journal->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

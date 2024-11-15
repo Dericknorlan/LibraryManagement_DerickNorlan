@@ -11,22 +11,15 @@ class BookController extends Controller
 {
     /**
      * Display a listing of the books.
-     *
-     * @return View
      */
     public function index(): View
     {
-        // Get all books, paginate 10 per page
         $books = Book::latest()->paginate(10);
-
-        // Render the books index view
         return view('books.index', compact('books'));
     }
 
     /**
      * Show the form for creating a new book.
-     *
-     * @return View
      */
     public function create(): View
     {
@@ -35,109 +28,68 @@ class BookController extends Controller
 
     /**
      * Store a newly created book in storage.
-     *
-     * @param  Request  $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validate the form data
-        $request->validate([
-            'title'       => 'required|min:5',
-            'author'      => 'required|min:3',
-            'publisher'   => 'required|min:3',
-            'year'        => 'required|numeric|digits:4',
+        $validated = $request->validate([
+            'title'       => 'required|min:5|max:255',
+            'author'      => 'required|min:3|max:255',
+            'publisher'   => 'required|min:3|max:255',
+            'year'        => 'required|numeric|digits:4|min:1000|max:' . date('Y'),
+            'type'        => 'required|in:book,ebook',
+        ], [
+            'title.required' => 'The book title is required.',
+            'year.numeric'   => 'The year must be a valid number.',
         ]);
 
-        // Create the new book
-        Book::create([
-            'title'       => $request->title,
-            'author'      => $request->author,
-            'publisher'   => $request->publisher,
-            'year'        => $request->year,
-        ]);
+        Book::create($validated);
 
-        // Redirect to the books index with a success message
-        return redirect()->route('books.index')->with(['success' => 'Book data successfully saved!']);
+        return redirect()->route('books.index')->with('success', 'Book data successfully saved!');
     }
 
     /**
      * Display the specified book.
-     *
-     * @param  int  $id
-     * @return View
      */
-    public function show(int $id): View
+    public function show(Book $book): View
     {
-        // Get the book by ID
-        $book = Book::findOrFail($id);
-
-        // Render the book show view
         return view('books.show', compact('book'));
     }
 
     /**
      * Show the form for editing the specified book.
-     *
-     * @param  int  $id
-     * @return View
      */
-    public function edit(int $id): View
+    public function edit(Book $book): View
     {
-        // Get the book by ID
-        $book = Book::findOrFail($id);
-
-        // Render the edit book view
         return view('books.edit', compact('book'));
     }
 
     /**
      * Update the specified book in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, Book $book): RedirectResponse
     {
-        // Validate the form data
-        $request->validate([
-            'title'       => 'required|min:5',
-            'author'      => 'required|min:3',
-            'publisher'   => 'required|min:3',
-            'year'        => 'required|numeric|digits:4',
+        $validated = $request->validate([
+            'title'       => 'required|min:5|max:255',
+            'author'      => 'required|min:3|max:255',
+            'publisher'   => 'required|min:3|max:255',
+            'year'        => 'required|numeric|digits:4|min:1000|max:' . date('Y'),
+            'type'        => 'required|in:book,ebook',
+        ], [
+            'title.required' => 'The book title is required.',
+            'year.numeric'   => 'The year must be a valid number.',
         ]);
 
-        // Get the book by ID
-        $book = Book::findOrFail($id);
+        $book->update($validated);
 
-        // Update the book data
-        $book->update([
-            'title'       => $request->title,
-            'author'      => $request->author,
-            'publisher'   => $request->publisher,
-            'year'        => $request->year,
-        ]);
-
-        // Redirect to the books index with a success message
-        return redirect()->route('books.index')->with(['success' => 'Book data successfully updated!']);
+        return redirect()->route('books.index')->with('success', 'Book data successfully updated!');
     }
 
     /**
      * Remove the specified book from storage.
-     *
-     * @param  int  $id
-     * @return RedirectResponse
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Book $book): RedirectResponse
     {
-        // Get the book by ID
-        $book = Book::findOrFail($id);
-
-        // Delete the book
         $book->delete();
-
-        // Redirect to the books index with a success message
-        return redirect()->route('books.index')->with(['success' => 'Book data successfully deleted!']);
+        return redirect()->route('books.index')->with('success', 'Book data successfully deleted!');
     }
 }

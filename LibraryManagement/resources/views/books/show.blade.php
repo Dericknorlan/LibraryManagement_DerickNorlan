@@ -14,12 +14,12 @@
 <body style="background: lightgray">
 
     <div class="container mt-5 mb-5">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="d-flex justify-content-between align-items-center mb-4"> <!-- Added mb-4 for bottom margin -->
-                    <!-- Back button with X icon -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <!-- Back button with an icon -->
                     <a href="{{ route('books.index') }}" class="btn btn-md btn-secondary">
-                        <i></i> Back to Books
+                        <i class="fas fa-arrow-left"></i> Back to Books
                     </a>
                 </div>
                 <div class="card border-0 shadow-sm rounded">
@@ -28,15 +28,25 @@
                         <h3>{{ $book->title }}</h3>
                         <hr />
 
-                        <!-- Book Author -->
+                        <!-- Book Details -->
                         <p><strong>Author:</strong> {{ $book->author }}</p>
-
-                        <!-- Book Publisher -->
                         <p><strong>Publisher:</strong> {{ $book->publisher }}</p>
-
-                        <!-- Book Year -->
                         <p><strong>Year:</strong> {{ $book->year }}</p>
+                        <p><strong>Type:</strong> {{ ucfirst($book->type) }}</p> <!-- Capitalize the first letter -->
 
+                        <!-- Additional Buttons -->
+                        <div class="mt-4">
+                            <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button onclick="confirmDelete({{ $book->id }})" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <form id="delete-form-{{ $book->id }}" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -44,6 +54,28 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Function to confirm delete
+        function confirmDelete(bookId) {
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Data buku ini akan dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    document.getElementById('delete-form-' + bookId).submit();
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

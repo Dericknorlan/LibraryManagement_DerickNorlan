@@ -19,7 +19,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <!-- Back button with X icon -->
                     <a href="{{ route('books.index') }}" class="btn btn-md btn-secondary">
-                        <i></i> Back to Books
+                        <i class="fas fa-arrow-left"></i> Back to Books
                     </a>
                 </div>
                 <div class="card border-0 shadow-sm rounded mt-3">
@@ -78,6 +78,22 @@
 
                                 <!-- error message for year -->
                                 @error('year')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <!-- Type -->
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold">TYPE</label>
+                                <select class="form-control @error('type') is-invalid @enderror" name="type">
+                                    <option value="book" {{ old('type', $book->type) === 'book' ? 'selected' : '' }}>Book</option>
+                                    <option value="ebook" {{ old('type', $book->type) === 'ebook' ? 'selected' : '' }}>E-Book</option>
+                                </select>
+
+                                <!-- error message for type -->
+                                @error('type')
                                 <div class="alert alert-danger mt-2">
                                     {{ $message }}
                                 </div>

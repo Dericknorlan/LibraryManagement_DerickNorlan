@@ -35,14 +35,26 @@
                         <p><strong>Publication Date:</strong> {{ $newspaper->publication_date }}</p>
 
                         <!-- Availability Status -->
-                        <p><strong>Status:</strong> 
+                        <p><strong>Status:</strong>
                             @if($newspaper->is_available)
-                                <span class="text-success">Available</span>
+                            <span class="text-success">Available</span>
                             @else
-                                <span class="text-danger">Not Available</span>
+                            <span class="text-danger">Not Available</span>
                             @endif
                         </p>
-
+                        <!-- Additional Buttons -->
+                        <div class="mt-4">
+                            <a href="{{ route('newspapers.edit', $newspaper->id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button onclick="confirmDelete({{ $newspaper->id }})" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <form id="delete-form-{{ $newspaper->id }}" action="{{ route('newspapers.destroy', $newspaper->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

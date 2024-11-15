@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('publisher');
             $table->integer('year')->default(0);
+            $table->enum('type', ['book', 'ebook'])->default('book');
             $table->timestamps();
         });
     }

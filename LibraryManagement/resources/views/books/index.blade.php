@@ -46,12 +46,12 @@
                                         </form>
                                         <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-dark">SHOW</a>
                                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                        <button onclick="confirmDelete({{ $book->id }})" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <button onclick="confirmDelete({{ $book->id }})" class="btn btn-sm btn-danger">DELETE</button>
                                     </td>
                                 </tr>
                                 @empty
                                 <div class="alert alert-danger">
-                                    No Books Available.
+                                    No Book data available.
                                 </div>
                                 @endforelse
                             </tbody>
@@ -71,7 +71,7 @@
         @if(session('success'))
         Swal.fire({
             icon: "success",
-            title: "BERHASIL",
+            title: "SUCCESS",
             text: "{{ session('success') }}",
             showConfirmButton: false,
             timer: 2000
@@ -79,7 +79,7 @@
         @elseif(session('error'))
         Swal.fire({
             icon: "error",
-            title: "GAGAL!",
+            title: "FAILED!",
             text: "{{ session('error') }}",
             showConfirmButton: false,
             timer: 2000
@@ -89,14 +89,14 @@
         // Function to confirm delete
         function confirmDelete(bookId) {
             Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: "Data buku ini akan dihapus!",
+                title: 'Are you sure?',
+                text: "This book will be deleted!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Hapus',
-                cancelButtonText: 'Batal'
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Submit the form if confirmed
