@@ -45,54 +45,56 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <h3 class="text-center my-4">Newspaper Collection</h3>
+                    <h3 class="text-center my-4">Books Collection</h3>
                     <h5 class="text-center"><a href="https://santrikoding.com">www.santrikoding.com</a></h5>
                     <hr>
                 </div>
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <a href="{{ route('newspapers.create') }}" class="btn btn-md btn-success mb-3">ADD NEWSPAPER</a>
+                        <a href="{{ route('books.create') }}" class="btn btn-md btn-success mb-3">ADD BOOK</a>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">TITLE</th>
+                                    <th scope="col">AUTHOR</th>
                                     <th scope="col">PUBLISHER</th>
-                                    <th scope="col">PUBLICATION DATE</th>
-                                    <th scope="col">AVAILABILITY</th>
+                                    <th scope="col">YEAR</th>
                                     <th scope="col" style="width: 20%">ACTIONS</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($newspapers as $newspaper)
-                                <tr>
-                                    <td>{{ $newspaper->title }}</td>
-                                    <td>{{ $newspaper->publisher }}</td>
-                                    <td>{{ $newspaper->publication_date }}</td>
-                                    <td>
-                                        @if($newspaper->is_available)
-                                        Available
-                                        @else
-                                        Not Available
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <form id="delete-form-{{ $newspaper->id }}" action="{{ route('newspapers.destroy', $newspaper->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        <a href="{{ route('newspapers.show', $newspaper->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                        <a href="{{ route('newspapers.edit', $newspaper->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                        <button onclick="confirmDelete({{ $newspaper->id }})" class="btn btn-sm btn-danger">DELETE</button>
-                                    </td>
-                                </tr>
-                                @empty
-                                <div class="alert alert-danger">
-                                    No Newspaper Data Available.
-                                </div>
-                                @endforelse
+                                @if(isset($books))
+                                    @forelse ($books as $book)
+                                    <tr>
+                                        <td>{{ $book->title }}</td>
+                                        <td>{{ $book->author }}</td>
+                                        <td>{{ $book->publisher }}</td>
+                                        <td>{{ $book->year }}</td>
+                                        <td class="text-center">
+                                            <form id="delete-form-{{ $book->id }}" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                            <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                            <button onclick="confirmDelete({{ $book->id }})" class="btn btn-sm btn-danger">DELETE</button>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <div class="alert alert-danger">
+                                        No Book data available.
+                                    </div>
+                                    @endforelse
+                                @else
+                                    <div class="alert alert-danger">
+                                        No Book data available.
+                                    </div>
+                                @endif
                             </tbody>
                         </table>
-                        {{ $newspapers->links() }}
+                        @if(isset($books))
+                            {{ $books->links() }}
+                        @endif
                     </div>
                 </div>
             </div>
@@ -123,10 +125,10 @@
         @endif
 
         // Function to confirm delete
-        function confirmDelete(newspaperId) {
+        function confirmDelete(bookId) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This newspaper will be deleted!",
+                text: "This book will be deleted!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -136,12 +138,11 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Submit the form if confirmed
-                    document.getElementById('delete-form-' + newspaperId).submit();
+                    document.getElementById('delete-form-' + bookId).submit();
                 }
             });
         }
     </script>
-
 </body>
 
 </html>

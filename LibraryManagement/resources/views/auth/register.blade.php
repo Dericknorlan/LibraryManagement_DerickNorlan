@@ -19,24 +19,30 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Usertype Dropdown -->
+        <div class="mt-4">
+            <x-input-label for="usertype" :value="__('Role')" />
+            <select id="usertype" name="usertype" class="block mt-1 w-full" required>
+                <option value="librarian" {{ old('usertype') == 'librarian' ? 'selected' : '' }}>Librarian</option>
+                <option value="admin" {{ old('usertype') == 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
+            <x-input-error :messages="$errors->get('usertype')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

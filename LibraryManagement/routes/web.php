@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,3 +33,25 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+route::get('admin/dashboard', [HomeController::class,'index'])->
+    middleware(['auth','admin']);
+
+
+// Register Route
+
+
+
+use App\Http\Controllers\Auth\RegisteredUserController;
+
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
+
+
+
+Route::get('/welcome', function () {
+    return view('welcome'); // Ganti dengan view yang sesuai, misalnya dashboard
+})->name('welcome');
+
+
+

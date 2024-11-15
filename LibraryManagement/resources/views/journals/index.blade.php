@@ -5,11 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Journals - SantriKoding.com</title>
+    <title>Data Collection - SantriKoding.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body style="background: lightgray">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SantriKoding</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Add Librarian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('books.index') }}">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cds.index') }}">CDs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('journals.index') }}">Journals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('newspapers.index') }}">Newspapers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container mt-5">
         <div class="row">
@@ -105,7 +135,6 @@
             });
         }
     </script>
-
 </body>
 
 </html>
