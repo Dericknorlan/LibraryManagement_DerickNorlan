@@ -63,10 +63,10 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="font-weight-bold">IS AVAILABLE</label>
+                                <label class="font-weight-bold">CHECK IS AVAILABLE</label>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input @error('is_available') is-invalid @enderror" name="is_available" value="1" {{ old('is_available') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_available">Available</label>
+                                    <label class="form-check-label" for="is_available">Is Available?</label>
                                 </div>
 
                                 <!-- error message for is_available -->
