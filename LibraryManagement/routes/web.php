@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\HomeController;
 
 
@@ -18,13 +18,6 @@ Route::resource('/cds', \App\Http\Controllers\CdController::class);
 Route::resource('/newspapers', \App\Http\Controllers\NewspaperController::class);
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,21 +30,19 @@ require __DIR__.'/auth.php';
 route::get('admin/dashboard', [HomeController::class,'index'])->
     middleware(['auth','admin']);
 
+route::get('librarian/dashboard', [HomeController::class, 'index'])->
+    middleware(['auth']);
+
 
 // Register Route
 
 
 
-use App\Http\Controllers\Auth\RegisteredUserController;
+
 
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
-
-
 Route::get('/welcome', function () {
-    return view('welcome'); // Ganti dengan view yang sesuai, misalnya dashboard
+    return view('welcome');
 })->name('welcome');
-
-
-

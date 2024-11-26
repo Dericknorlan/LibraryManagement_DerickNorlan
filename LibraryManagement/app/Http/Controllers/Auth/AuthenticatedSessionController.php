@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use PhpParser\Node\Stmt\ElseIf_;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,11 +29,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if($request->user()->usertype === 'admin'){
-            return redirect('admin/dashboard');
-        } 
+        if($request->user()->usertype === 'admin') return redirect('admin/dashboard');
+        elseif($request->user()->usertype === 'librarian') return redirect('librarian/dashboard');
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        
     }
 
     /**

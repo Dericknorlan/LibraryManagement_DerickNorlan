@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" onsubmit="event.preventDefault(); submitForm();">
         @csrf
 
         <!-- Name -->
@@ -55,4 +55,30 @@
             </x-primary-button>
         </div>
     </form>
+
+    <script>
+        function submitForm() {
+            const form = event.target;
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/admin/dashboard'; // Redirect to admin/dashboard
+                } else {
+                    // Handle errors
+                    return response.json().then(data => {
+                        // Display errors
+                        console.log(data.errors);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </x-guest-layout>
