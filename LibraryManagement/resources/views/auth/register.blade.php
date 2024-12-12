@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}" onsubmit="event.preventDefault(); submitForm();">
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
@@ -19,34 +19,39 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
+
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
+
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
+
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <!-- Usertype Dropdown -->
-        <div class="mt-4">
-            <x-input-label for="usertype" :value="__('Role')" />
-            <select id="usertype" name="usertype" class="block mt-1 w-full" required>
-                <option value="librarian" {{ old('usertype') == 'librarian' ? 'selected' : '' }}>Librarian</option>
-                <option value="admin" {{ old('usertype') == 'admin' ? 'selected' : '' }}>Admin</option>
+        <div>
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                {{-- <option value="student">Student</option> --}}
+                <option value="librarian">Librarian</option>
+                <option value="admin">Admin</option>
+                <option value="student">Student</option>
+                <option value="lecturer">Lecturer</option>
             </select>
-            <x-input-error :messages="$errors->get('usertype')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -55,30 +60,4 @@
             </x-primary-button>
         </div>
     </form>
-
-    <script>
-        function submitForm() {
-            const form = event.target;
-            const formData = new FormData(form);
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '/admin/dashboard'; // Redirect to admin/dashboard
-                } else {
-                    // Handle errors
-                    return response.json().then(data => {
-                        // Display errors
-                        console.log(data.errors);
-                    });
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
 </x-guest-layout>

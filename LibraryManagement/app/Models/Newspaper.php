@@ -10,14 +10,28 @@ class Newspaper extends Model
     use HasFactory;
 
     /**
-     * Fillable fields for a Newspaper.
+     * fillable
      *
      * @var array
      */
     protected $fillable = [
         'title',
+        'author',
         'publisher',
-        'publication_date',
-        'is_available', // Updated to reflect the new column
+        'description',
+        'price',
+        'stock',
+        'datePublished',
+        'onlineLink',
+        'catalogue_type'
     ];
+
+    public $timestamps = false;
+    public $updated_at = false;
+
+    public function borrowedItems()
+{
+    return $this->morphMany(BorrowedItem::class, 'borrowable');
+}
+
 }

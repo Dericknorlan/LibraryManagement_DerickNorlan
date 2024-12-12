@@ -10,14 +10,31 @@ class Journal extends Model
     use HasFactory;
 
     /**
-     * Fillable attributes for the journal model
+     * fillable
      *
      * @var array
      */
     protected $fillable = [
         'title',
         'author',
-        'publish_date',
-        'abstract',
+        'publisher',
+        'description',
+        'price',
+        'stock',
+        'datePublished',
+        'volume',
+        'series',
+        'number',
+        'onlineLink',
+        'catalogue_type'
     ];
+
+    public $timestamps = false;
+    public $updated_at = false;
+
+    public function borrowedItems()
+{
+    return $this->morphMany(BorrowedItem::class, 'borrowable');
+}
+
 }
